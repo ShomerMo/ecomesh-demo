@@ -9,18 +9,14 @@
         --blue: #1677ff;
         --blue-dark: #0f5de8;
         --text: #111827;
-        --muted: #6b7280;
-        --soft: #f4f7fb;
+        --muted: #667085;
         --line: #e6ebf2;
-        --card: #ffffff;
+        --soft: #f4f7fb;
+        --card: #fff;
       }
 
       * {
         box-sizing: border-box;
-      }
-
-      html {
-        scroll-behavior: smooth;
       }
 
       body {
@@ -33,7 +29,8 @@
       }
 
       button,
-      input {
+      input,
+      textarea {
         font: inherit;
       }
 
@@ -276,18 +273,34 @@
         font-size: 14px;
       }
 
-      .search-box input::placeholder {
-        color: #9aa4b2;
+      .search-box button,
+      .primary-btn {
+        border: 0;
+        color: #fff;
+        background: var(--blue);
+        font-weight: 700;
       }
 
       .search-box button {
         width: 64px;
         height: 34px;
-        border: 0;
         border-radius: 18px;
-        color: #fff;
-        background: var(--blue);
         font-size: 14px;
+      }
+
+      .primary-btn {
+        height: 38px;
+        border-radius: 6px;
+        padding: 0 18px;
+      }
+
+      .ghost-btn {
+        height: 38px;
+        border: 1px solid #d7dfeb;
+        border-radius: 6px;
+        padding: 0 16px;
+        color: #1f2937;
+        background: #fff;
         font-weight: 700;
       }
 
@@ -414,12 +427,23 @@
       }
 
       .card {
-        min-height: 166px;
+        min-height: 176px;
         border: 1px solid var(--line);
         border-radius: 10px;
         padding: 17px;
         background: var(--card);
         box-shadow: 0 8px 22px rgba(20, 35, 66, 0.06);
+        transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+      }
+
+      .expert-card {
+        cursor: pointer;
+      }
+
+      .expert-card:hover {
+        border-color: #b9d4ff;
+        box-shadow: 0 14px 30px rgba(22, 119, 255, 0.12);
+        transform: translateY(-2px);
       }
 
       .card-top {
@@ -429,15 +453,22 @@
         align-items: start;
       }
 
-      .cube {
+      .cube,
+      .avatar-logo {
         display: grid;
         place-items: center;
         width: 32px;
         height: 32px;
         border: 1px solid var(--line);
         border-radius: 8px;
-        color: #627188;
         background: #fff;
+      }
+
+      .avatar-logo {
+        color: #fff;
+        font-size: 13px;
+        font-weight: 900;
+        background: linear-gradient(135deg, #16ccff, #1677ff 55%, #7c3aed);
       }
 
       .card h3 {
@@ -486,6 +517,13 @@
         -webkit-line-clamp: 2;
       }
 
+      .card-bottom {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
       .tags {
         display: flex;
         flex-wrap: wrap;
@@ -497,6 +535,26 @@
         padding: 3px 7px;
         color: #667085;
         background: #f3f6fa;
+        font-size: 12px;
+        line-height: 18px;
+      }
+
+      .price {
+        display: grid;
+        justify-items: end;
+        min-width: 120px;
+        white-space: nowrap;
+      }
+
+      .price strong {
+        color: var(--blue);
+        font-size: 20px;
+        line-height: 24px;
+        font-weight: 900;
+      }
+
+      .price span {
+        color: var(--muted);
         font-size: 12px;
         line-height: 18px;
       }
@@ -527,6 +585,245 @@
         border-color: var(--blue);
         color: var(--blue);
         background: #eef5ff;
+      }
+
+      .detail,
+      .workbench {
+        max-width: 1170px;
+        margin: 0 auto;
+        padding: 40px 20px 52px;
+      }
+
+      .breadcrumb {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 18px;
+        color: #667085;
+        font-size: 13px;
+      }
+
+      .breadcrumb button {
+        border: 0;
+        color: var(--blue);
+        background: transparent;
+        font-weight: 700;
+      }
+
+      .detail-card {
+        display: grid;
+        grid-template-columns: 1fr 300px;
+        gap: 24px;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 28px;
+        background: #fff;
+        box-shadow: 0 12px 30px rgba(20, 35, 66, 0.07);
+      }
+
+      .detail-title {
+        display: grid;
+        grid-template-columns: 54px minmax(0, 1fr);
+        gap: 16px;
+        align-items: center;
+        margin-bottom: 22px;
+      }
+
+      .detail-title .avatar-logo {
+        width: 54px;
+        height: 54px;
+        border-radius: 12px;
+        font-size: 20px;
+      }
+
+      .detail-title h2 {
+        margin: 0;
+        font-size: 26px;
+        line-height: 34px;
+      }
+
+      .detail-section {
+        margin-top: 24px;
+      }
+
+      .detail-section h3 {
+        margin: 0 0 10px;
+        font-size: 17px;
+      }
+
+      .detail-section p {
+        margin: 0;
+        color: #5f6b7c;
+        font-size: 14px;
+        line-height: 26px;
+      }
+
+      .feature-list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+        margin-top: 12px;
+      }
+
+      .feature-item {
+        border-radius: 6px;
+        padding: 12px;
+        color: #415066;
+        background: #f6f8fb;
+        font-size: 13px;
+      }
+
+      .purchase-panel {
+        align-self: start;
+        border: 1px solid #dfe7f3;
+        border-radius: 10px;
+        padding: 20px;
+        background: linear-gradient(180deg, #f9fbff, #fff);
+      }
+
+      .purchase-panel .price {
+        align-items: start;
+        justify-items: start;
+        margin-bottom: 18px;
+      }
+
+      .purchase-panel .price strong {
+        font-size: 28px;
+        line-height: 34px;
+      }
+
+      .purchase-panel button {
+        width: 100%;
+        margin-top: 10px;
+      }
+
+      .workbench-shell {
+        display: grid;
+        grid-template-columns: 250px minmax(0, 1fr);
+        min-height: 640px;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        overflow: hidden;
+        background: #fff;
+        box-shadow: 0 12px 30px rgba(20, 35, 66, 0.07);
+      }
+
+      .agent-side {
+        border-right: 1px solid var(--line);
+        padding: 18px;
+        background: #f7f9fd;
+      }
+
+      .agent-profile {
+        display: grid;
+        gap: 10px;
+        justify-items: start;
+        padding-bottom: 18px;
+        border-bottom: 1px solid #e2e8f0;
+      }
+
+      .agent-profile .avatar-logo {
+        width: 46px;
+        height: 46px;
+        border-radius: 12px;
+        font-size: 18px;
+      }
+
+      .agent-profile h3 {
+        margin: 0;
+        font-size: 17px;
+      }
+
+      .agent-profile p {
+        margin: 0;
+        color: #64748b;
+        font-size: 13px;
+        line-height: 20px;
+      }
+
+      .suggestions {
+        display: grid;
+        gap: 8px;
+        margin-top: 18px;
+      }
+
+      .suggestions button {
+        border: 1px solid #dbe4f0;
+        border-radius: 6px;
+        padding: 10px;
+        color: #334155;
+        background: #fff;
+        text-align: left;
+        font-size: 13px;
+        line-height: 20px;
+      }
+
+      .chat {
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        min-width: 0;
+      }
+
+      .chat-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        height: 64px;
+        border-bottom: 1px solid var(--line);
+        padding: 0 20px;
+      }
+
+      .chat-head h2 {
+        margin: 0;
+        font-size: 18px;
+      }
+
+      .messages {
+        display: grid;
+        align-content: start;
+        gap: 16px;
+        padding: 24px;
+        background: linear-gradient(180deg, #fff, #fbfdff);
+      }
+
+      .message {
+        max-width: 72%;
+        border-radius: 10px;
+        padding: 12px 14px;
+        font-size: 14px;
+        line-height: 24px;
+      }
+
+      .message.agent {
+        justify-self: start;
+        color: #334155;
+        background: #f2f6fc;
+      }
+
+      .message.user {
+        justify-self: end;
+        color: #fff;
+        background: var(--blue);
+      }
+
+      .composer {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 88px;
+        gap: 12px;
+        border-top: 1px solid var(--line);
+        padding: 16px;
+        background: #fff;
+      }
+
+      .composer textarea {
+        height: 46px;
+        resize: none;
+        border: 1px solid #dce4ef;
+        border-radius: 8px;
+        outline: 0;
+        padding: 12px;
+        font-size: 14px;
       }
 
       .service-band {
@@ -619,17 +916,15 @@
       }
 
       .qr-box {
-        display: grid;
-        place-items: center;
         width: 66px;
         height: 66px;
         margin-bottom: 8px;
+        border: 1px solid #e1e6ef;
         border-radius: 2px;
         background:
           linear-gradient(90deg, #111 8px, transparent 8px 12px, #111 12px 16px, transparent 16px) 7px 7px / 24px 24px,
           linear-gradient(90deg, transparent 6px, #111 6px 10px, transparent 10px 14px, #111 14px 18px) 10px 38px / 24px 20px,
           #fff;
-        border: 1px solid #e1e6ef;
       }
 
       .copyright {
@@ -669,12 +964,18 @@
         height: 16px;
       }
 
+      [hidden] {
+        display: none !important;
+      }
+
       @media (max-width: 1100px) {
         .main-nav {
           display: none;
         }
 
-        .market {
+        .market,
+        .workbench-shell,
+        .detail-card {
           grid-template-columns: 1fr;
         }
 
@@ -712,7 +1013,11 @@
           line-height: 36px;
         }
 
-        .grid {
+        .grid,
+        .filters,
+        .promise-row,
+        .footer-main,
+        .feature-list {
           grid-template-columns: 1fr;
         }
 
@@ -721,14 +1026,17 @@
           flex-direction: column;
         }
 
-        .filters,
-        .promise-row,
-        .footer-main {
-          grid-template-columns: 1fr;
+        .card-bottom {
+          align-items: flex-start;
+          flex-direction: column;
         }
 
-        .promise-row {
-          gap: 18px;
+        .price {
+          justify-items: start;
+        }
+
+        .message {
+          max-width: 92%;
         }
 
         .partner {
@@ -741,7 +1049,7 @@
   <body>
     <header class="topbar">
       <div class="topbar-inner">
-        <a class="brand" href="#" aria-label="火山引擎">
+        <a class="brand" href="#market" aria-label="火山引擎">
           <span class="brand-mark"><span></span></span>
           火山引擎
         </a>
@@ -773,36 +1081,36 @@
 
     <nav class="subnav" aria-label="EcoMesh 导航">
       <div class="subnav-inner">
-        <a href="#">EcoMesh</a>
-        <a class="active" href="#">能力市场</a>
-        <a href="#">Agent工作台</a>
+        <a href="#market">EcoMesh</a>
+        <a class="active" id="marketNav" href="#market">能力市场</a>
+        <a id="workbenchNav" href="#workbench">Agent工作台</a>
       </div>
     </nav>
 
-    <section class="hero">
+    <section class="hero" id="hero">
       <div class="hero-content">
         <h1>EcoMesh能力市场</h1>
-        <p>深耕电商、本地生活、小游戏与红果短剧四大黄金赛道。海量即插即用、高转化的商业级 Skill，助你抢人一步抢占 AI 增长红利。</p>
+        <p>深耕电商、本地生活、小游戏与红果短剧四大黄金赛道。海量即插即用、高转化的商业级 Skill，助你快人一步抢占 AI 增长红利。</p>
         <form class="search-box">
-          <input type="search" placeholder="搜索你感兴趣的技能" />
+          <input id="searchInput" type="search" placeholder="搜索你感兴趣的专家Agent" />
           <button type="submit">搜索</button>
         </form>
       </div>
     </section>
 
-    <main class="market">
+    <main class="market" id="marketView">
       <aside class="sidebar">
-        <div class="mode-switch" aria-label="市场切换">
-          <button type="button">专家Agent</button>
-          <button class="active" type="button">Agent技能</button>
+        <div class="mode-switch" aria-label="广场切换">
+          <button class="active" type="button" data-mode="experts">专家广场</button>
+          <button type="button" data-mode="skills">技能广场</button>
         </div>
         <nav class="filters" id="filters" aria-label="服务分类"></nav>
       </aside>
 
       <section>
         <div class="content-head">
-          <h2>Agent技能市场</h2>
-          <div class="skill-tabs" aria-label="技能类型">
+          <h2 id="sectionTitle">专家广场</h2>
+          <div class="skill-tabs" id="typeTabs" aria-label="技能类型">
             <button class="active" type="button">
               <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3v3M12 18v3M5 5l2 2M17 17l2 2M3 12h3M18 12h3M5 19l2-2M17 7l2-2" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
               知识型技能
@@ -814,7 +1122,7 @@
           </div>
         </div>
         <div class="grid" id="grid"></div>
-        <div class="pager">
+        <div class="pager" id="pager">
           <span>共 164 项</span>
           <button class="page-btn" type="button">‹</button>
           <button class="page-btn active" type="button">1</button>
@@ -829,7 +1137,10 @@
       </section>
     </main>
 
-    <section class="service-band">
+    <section class="detail" id="detailView" hidden></section>
+    <section class="workbench" id="workbenchView" hidden></section>
+
+    <section class="service-band" id="serviceBand">
       <div class="service-inner">
         <div class="promise-row">
           <div class="promise">
@@ -852,10 +1163,10 @@
       </div>
     </section>
 
-    <footer class="footer">
+    <footer class="footer" id="footer">
       <div class="footer-inner">
         <div class="footer-main">
-          <a class="brand footer-logo" href="#" aria-label="火山引擎">
+          <a class="brand footer-logo" href="#market" aria-label="火山引擎">
             <span class="brand-mark"><span></span></span>
             火山引擎
           </a>
@@ -925,7 +1236,18 @@
     </button>
 
     <script>
-      const categories = [
+      const expertCategories = [
+        ["全部服务", 8],
+        ["电商", 3],
+        ["生活服务", 3],
+        ["金融", 2],
+        ["短剧", 0],
+        ["游戏", 0],
+        ["效率办公", 0],
+        ["数据分析", 0]
+      ];
+
+      const skillCategories = [
         ["电商", 38],
         ["短剧", 24],
         ["生活服务", 31],
@@ -936,92 +1258,134 @@
         ["数据分析", 10]
       ];
 
-      const skills = [
+      const experts = [
         {
-          name: "商品上架助手",
-          vendor: "灵火数字零售（杭州）有限公司",
+          id: "commerce-content",
+          name: "电商内容运营专家",
+          vendor: "杭州耀秀电子商务有限公司",
           category: "电商",
-          type: "工具型技能",
-          desc: "面向抖店、淘宝与小红书商家，自动提取商品卖点、生成标题、详情页文案与多平台发布字段。",
-          tags: ["API 集成", "文件读写", "自动化"]
+          price: 99,
+          logo: "电",
+          tags: ["自动化", "多模型支持", "跨平台"],
+          desc: "根据商品 SKU 自动生成适配小红书、抖音、淘宝的风格化文案，覆盖卖点提炼、种草标题、详情页段落与投放素材脚本。",
+          detail: "该专家面向电商运营团队，能够把商品基础资料、用户评价、竞品信息转化为可直接发布的内容资产。适合新品上架、活动大促、达人分发和直播间预热等场景。",
+          features: ["商品卖点自动拆解", "多平台内容风格适配", "标题与短视频脚本生成", "支持批量 SKU 处理"]
         },
         {
-          name: "直播间话术生成",
-          vendor: "星跃电商科技（上海）有限公司",
+          id: "commerce-listing",
+          name: "电商上架专家",
+          vendor: "杭州学得起科技有限公司",
           category: "电商",
-          type: "知识型技能",
-          desc: "根据商品卖点、优惠节奏和用户评论生成直播脚本，支持开场、逼单、答疑和复盘建议。",
-          tags: ["知识库", "自动化", "内容生成"]
+          price: 129,
+          logo: "上",
+          tags: ["自动化", "API 集成", "文件读写"],
+          desc: "专为抖店电商运营打造的 AI 智能上架助手，一键导入 1688 商品信息，自动适配平台规则生成合规标题与属性。",
+          detail: "该专家帮助商家减少重复录入工作，围绕标题、属性、规格、主图描述和类目建议给出完整上架方案，提升商品发布效率与合规度。",
+          features: ["1688 商品信息解析", "平台属性自动补全", "合规标题生成", "上架字段批量导出"]
         },
         {
-          name: "短剧投流诊断",
-          vendor: "红果增长智能（北京）有限公司",
-          category: "短剧",
-          type: "工具型技能",
-          desc: "汇总消耗、点击率、完播率和付费转化，定位短剧投放素材衰减与人群错配问题。",
-          tags: ["实时数据", "投放分析", "API 集成"]
+          id: "commerce-selection",
+          name: "选品运营专家",
+          vendor: "杭州学得起科技有限公司",
+          category: "电商",
+          price: 159,
+          logo: "选",
+          tags: ["搜索引擎", "自动化", "API 集成"],
+          desc: "输入商品信息即可自动匹配 1688 最优货源，结合市场趋势生成搜索词，按多维度排序推荐高性价比货源。",
+          detail: "该专家适合选品、采购和店群运营团队，通过供应商稳定性、价格带、热销趋势、评价风险等维度输出选品建议。",
+          features: ["货源智能匹配", "价格带与利润测算", "趋势关键词提取", "供应商风险提示"]
         },
         {
-          name: "爆款剧情拆解",
-          vendor: "云幕文娱科技（杭州）有限公司",
-          category: "短剧",
-          type: "知识型技能",
-          desc: "提取短剧前三集冲突、钩子、反转与付费点，输出适合编剧和投手共用的结构化拆解。",
-          tags: ["知识型技能", "内容分析", "文件读写"]
-        },
-        {
-          name: "门店运营巡检",
-          vendor: "本地蜂巢科技（上海）有限公司",
+          id: "trip-planner",
+          name: "携程问道专家",
+          vendor: "上海携程商务有限公司",
           category: "生活服务",
-          type: "工具型技能",
-          desc: "自动读取门店评价、团购核销与客诉记录，生成服务改进清单和高优先级处理建议。",
-          tags: ["实时数据", "自动化", "协同任务"]
+          price: 199,
+          logo: "旅",
+          tags: ["搜索引擎", "多语言", "API 集成"],
+          desc: "一问即懂全场景旅行需求，快速生成机票、火车、酒店、景点门票、出行攻略等组合服务。",
+          detail: "该专家可理解预算、时间、偏好和同行人信息，生成行程方案与预订建议，适合旅行咨询、客服导购和本地生活平台。",
+          features: ["行程路线规划", "票酒组合推荐", "多语言问答", "预算与偏好约束"]
         },
         {
-          name: "到店套餐策划",
-          vendor: "轻舟生活服务（成都）有限公司",
+          id: "store-ops",
+          name: "门店运营专家",
+          vendor: "上海益氪信息科技有限公司",
           category: "生活服务",
-          type: "知识型技能",
-          desc: "结合商圈、客单价和节假日热点，生成餐饮、美业、亲子门店的套餐结构和营销文案。",
-          tags: ["搜索引擎", "内容生成", "知识库"]
+          price: 109,
+          logo: "店",
+          tags: ["自动化", "工作流编排", "协作共享"],
+          desc: "门店导购飞书语音拍照即可录入试衣记录，沉淀多维表格，看板分析试穿转化、未购原因与数据直达总部。",
+          detail: "该专家把门店现场反馈转化为结构化运营资产，帮助店长和总部快速定位服务问题、陈列问题和商品机会。",
+          features: ["试衣记录结构化", "未购原因归因", "门店日报生成", "总部看板同步"]
         },
         {
-          name: "小游戏关卡复盘",
-          vendor: "跃点互动科技（深圳）有限公司",
-          category: "游戏",
-          type: "工具型技能",
-          desc: "分析关卡流失、广告触发与付费节点，帮助小游戏团队快速定位难度曲线和商业化问题。",
-          tags: ["数据分析", "实时数据", "可视化"]
+          id: "private-domain",
+          name: "私域运营专家",
+          vendor: "上海益氪信息科技有限公司",
+          category: "生活服务",
+          price: 139,
+          logo: "私",
+          tags: ["自动化", "工作流编排", "可视化"],
+          desc: "私域运营分析能力包，聚焦经营诊断与策略生成，输出专项运营策略与可执行结论，适配多类数据输入。",
+          detail: "该专家面向社群、电销和会员运营团队，可根据用户分层、活动表现、复购路径给出触达策略与话术建议。",
+          features: ["用户分层诊断", "活动复盘分析", "触达话术生成", "复购策略推荐"]
         },
         {
-          name: "游戏素材命名",
-          vendor: "像素增长引擎（广州）有限公司",
-          category: "游戏",
-          type: "工具型技能",
-          desc: "根据素材画面、角色、玩法卖点生成规范命名，支持投放平台批量识别和资产管理。",
-          tags: ["文件读写", "批量处理", "自动化"]
-        },
-        {
-          name: "企业发票核验",
-          vendor: "企云互联（北京）信息技术有限公司",
+          id: "investment-signal",
+          name: "投资信号专家",
+          vendor: "北京盈思万象科技有限公司",
           category: "金融",
-          type: "工具型技能",
-          desc: "对接发票验真与企业工商信息，自动识别抬头、税号、金额和交易风险，辅助财务合规。",
-          tags: ["API 集成", "官方认证", "安全扫描"]
+          price: 229,
+          logo: "投",
+          tags: ["实时数据", "搜索引擎", "API 集成"],
+          desc: "7x24 监控 AI、半导体、新能源等主题，从海量资讯中自动捕捉高价值投资信号，输出信号等级和深度影响分析。",
+          detail: "该专家适合投研、产业研究和经营分析场景，可将新闻、公告、研报摘要转化为主题跟踪与风险提示。",
+          features: ["主题资讯监控", "事件影响评级", "风险提示生成", "投研摘要输出"]
         },
         {
-          name: "经营风险雷达",
-          vendor: "量子数聚（北京）科技有限公司",
+          id: "portfolio-diagnosis",
+          name: "持仓诊断专家",
+          vendor: "北京盈思万象科技有限公司",
           category: "金融",
-          type: "知识型技能",
-          desc: "监测工商、司法、舆情和招投标数据，生成企业风险摘要和合作准入建议。",
-          tags: ["实时数据", "搜索引擎", "安全扫描"]
+          price: 259,
+          logo: "诊",
+          tags: ["可视化", "实时数据", "自我改进"],
+          desc: "输入持仓即可自动完成快速诊断、深度量化分析与优化处方，输出可执行调仓建议。",
+          detail: "该专家围绕波动率、回撤、相关性、行业暴露和因子暴露进行综合分析，帮助用户理解持仓结构与潜在风险。",
+          features: ["持仓结构诊断", "相关性与回撤分析", "调仓建议生成", "风险解释可视化"]
         }
       ];
 
+      const skills = [
+        { name: "商品上架助手", vendor: "灵火数字零售（杭州）有限公司", category: "电商", type: "工具型技能", desc: "面向抖店、淘宝与小红书商家，自动提取商品卖点、生成标题、详情页文案与多平台发布字段。", tags: ["API 集成", "文件读写", "自动化"] },
+        { name: "直播间话术生成", vendor: "星跃电商科技（上海）有限公司", category: "电商", type: "知识型技能", desc: "根据商品卖点、优惠节奏和用户评论生成直播脚本，支持开场、逼单、答疑和复盘建议。", tags: ["知识库", "自动化", "内容生成"] },
+        { name: "短剧投流诊断", vendor: "红果增长智能（北京）有限公司", category: "短剧", type: "工具型技能", desc: "汇总消耗、点击率、完播率和付费转化，定位短剧投放素材衰减与人群错配问题。", tags: ["实时数据", "投放分析", "API 集成"] },
+        { name: "爆款剧情拆解", vendor: "云幕文娱科技（杭州）有限公司", category: "短剧", type: "知识型技能", desc: "提取短剧前三集冲突、钩子、反转与付费点，输出适合编剧和投手共用的结构化拆解。", tags: ["知识型技能", "内容分析", "文件读写"] },
+        { name: "门店运营巡检", vendor: "本地蜂巢科技（上海）有限公司", category: "生活服务", type: "工具型技能", desc: "自动读取门店评价、团购核销与客诉记录，生成服务改进清单和高优先级处理建议。", tags: ["实时数据", "自动化", "协同任务"] },
+        { name: "小游戏关卡复盘", vendor: "跃点互动科技（深圳）有限公司", category: "游戏", type: "工具型技能", desc: "分析关卡流失、广告触发与付费节点，帮助小游戏团队快速定位难度曲线和商业化问题。", tags: ["数据分析", "实时数据", "可视化"] },
+        { name: "企业发票核验", vendor: "企云互联（北京）信息技术有限公司", category: "金融", type: "工具型技能", desc: "对接发票验真与企业工商信息，自动识别抬头、税号、金额和交易风险，辅助财务合规。", tags: ["API 集成", "官方认证", "安全扫描"] },
+        { name: "经营风险雷达", vendor: "量子数聚（北京）科技有限公司", category: "金融", type: "知识型技能", desc: "监测工商、司法、舆情和招投标数据，生成企业风险摘要和合作准入建议。", tags: ["实时数据", "搜索引擎", "安全扫描"] }
+      ];
+
+      const state = {
+        mode: "experts",
+        activeCategory: "全部服务",
+        selectedExpert: experts[0]
+      };
+
       const filtersEl = document.querySelector("#filters");
       const gridEl = document.querySelector("#grid");
-      let active = "电商";
+      const marketView = document.querySelector("#marketView");
+      const detailView = document.querySelector("#detailView");
+      const workbenchView = document.querySelector("#workbenchView");
+      const hero = document.querySelector("#hero");
+      const sectionTitle = document.querySelector("#sectionTitle");
+      const typeTabs = document.querySelector("#typeTabs");
+      const pager = document.querySelector("#pager");
+      const searchInput = document.querySelector("#searchInput");
+      const marketNav = document.querySelector("#marketNav");
+      const workbenchNav = document.querySelector("#workbenchNav");
 
       function cubeIcon() {
         return `
@@ -1032,17 +1396,57 @@
         `;
       }
 
-      function badgeIcon(type) {
+      function typeIcon(type) {
         if (type === "知识型技能") {
           return `<svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3v3M12 18v3M5 5l2 2M17 17l2 2M3 12h3M18 12h3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`;
         }
         return `<svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 8h16v11H4V8ZM8 8V5h8v3M4 12h16" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>`;
       }
 
+      function setNav(view) {
+        marketNav.classList.toggle("active", view !== "workbench");
+        workbenchNav.classList.toggle("active", view === "workbench");
+      }
+
+      function showMarket() {
+        marketView.hidden = false;
+        detailView.hidden = true;
+        workbenchView.hidden = true;
+        hero.hidden = false;
+        setNav("market");
+        render();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      function showDetail(expertId) {
+        const expert = experts.find((item) => item.id === expertId) || experts[0];
+        state.selectedExpert = expert;
+        marketView.hidden = true;
+        detailView.hidden = false;
+        workbenchView.hidden = true;
+        hero.hidden = false;
+        setNav("market");
+        renderDetail(expert);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      function showWorkbench(expertId) {
+        const expert = experts.find((item) => item.id === expertId) || state.selectedExpert || experts[0];
+        state.selectedExpert = expert;
+        marketView.hidden = true;
+        detailView.hidden = true;
+        workbenchView.hidden = false;
+        hero.hidden = true;
+        setNav("workbench");
+        renderWorkbench(expert);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
       function renderFilters() {
+        const categories = state.mode === "experts" ? expertCategories : skillCategories;
         filtersEl.innerHTML = categories
           .map(([name, count]) => `
-            <button class="filter ${name === active ? "active" : ""}" type="button" data-category="${name}">
+            <button class="filter ${name === state.activeCategory ? "active" : ""}" type="button" data-category="${name}">
               <span>${name}</span>
               <b>${count}</b>
             </button>
@@ -1050,16 +1454,41 @@
           .join("");
       }
 
-      function renderCards() {
-        const chosen = skills.filter((skill) => skill.category === active);
-        const fallback = chosen.length ? chosen : skills.slice(0, 2).map((skill) => ({ ...skill, category: active }));
+      function renderExpertCards() {
+        const visible = state.activeCategory === "全部服务" ? experts : experts.filter((expert) => expert.category === state.activeCategory);
+        gridEl.innerHTML = visible
+          .map((expert) => `
+            <article class="card expert-card" data-expert-id="${expert.id}" tabindex="0" aria-label="查看${expert.name}详情">
+              <div class="card-top">
+                <div class="avatar-logo">${expert.logo}</div>
+                <div>
+                  <h3>${expert.name}</h3>
+                  <p class="vendor">by ${expert.vendor}</p>
+                </div>
+                <span class="badge">${expert.category}</span>
+              </div>
+              <p class="desc">${expert.desc}</p>
+              <div class="card-bottom">
+                <div class="tags">
+                  ${expert.tags.map((tag) => `<span class="tag">${tag}</span>`).join("")}
+                </div>
+                <div class="price">
+                  <strong>¥${expert.price}</strong>
+                  <span>每天100次</span>
+                </div>
+              </div>
+            </article>
+          `)
+          .join("");
+      }
+
+      function renderSkillCards() {
+        const chosen = skills.filter((skill) => skill.category === state.activeCategory);
+        const fallback = chosen.length ? chosen : skills.slice(0, 2).map((skill) => ({ ...skill, category: state.activeCategory }));
         const visible = Array.from({ length: 10 }, (_, index) => {
           const seed = fallback[index % fallback.length];
           const suffixes = ["", "专业版", "增长版", "协同版", "企业版"];
-          return {
-            ...seed,
-            name: `${seed.name}${suffixes[Math.floor(index / fallback.length)] || ""}`
-          };
+          return { ...seed, name: `${seed.name}${suffixes[Math.floor(index / fallback.length)] || ""}` };
         });
 
         gridEl.innerHTML = visible
@@ -1071,7 +1500,7 @@
                   <h3>${skill.name}</h3>
                   <p class="vendor">by ${skill.vendor}</p>
                 </div>
-                <span class="badge">${badgeIcon(skill.type)} ${skill.type}</span>
+                <span class="badge">${typeIcon(skill.type)} ${skill.type}</span>
               </div>
               <p class="desc">${skill.desc}</p>
               <div class="tags">
@@ -1082,20 +1511,184 @@
           .join("");
       }
 
+      function render() {
+        sectionTitle.textContent = state.mode === "experts" ? "专家广场" : "技能广场";
+        typeTabs.hidden = state.mode === "experts";
+        pager.querySelector("span").textContent = state.mode === "experts" ? "共 8 项" : "共 164 项";
+        searchInput.placeholder = state.mode === "experts" ? "搜索你感兴趣的专家Agent" : "搜索你感兴趣的技能";
+        document.querySelectorAll(".mode-switch button").forEach((button) => {
+          button.classList.toggle("active", button.dataset.mode === state.mode);
+        });
+        renderFilters();
+        if (state.mode === "experts") {
+          renderExpertCards();
+        } else {
+          renderSkillCards();
+        }
+      }
+
+      function renderDetail(expert) {
+        detailView.innerHTML = `
+          <div class="breadcrumb">
+            <button type="button" data-action="back-market">专家广场</button>
+            <span>/</span>
+            <span>${expert.name}</span>
+          </div>
+          <div class="detail-card">
+            <div>
+              <div class="detail-title">
+                <div class="avatar-logo">${expert.logo}</div>
+                <div>
+                  <h2>${expert.name}</h2>
+                  <p class="vendor">by ${expert.vendor}</p>
+                </div>
+              </div>
+              <div class="tags">
+                <span class="tag">${expert.category}</span>
+                ${expert.tags.map((tag) => `<span class="tag">${tag}</span>`).join("")}
+              </div>
+              <div class="detail-section">
+                <h3>商品详情</h3>
+                <p>${expert.detail}</p>
+              </div>
+              <div class="detail-section">
+                <h3>能力说明</h3>
+                <p>${expert.desc}</p>
+                <div class="feature-list">
+                  ${expert.features.map((feature) => `<div class="feature-item">${feature}</div>`).join("")}
+                </div>
+              </div>
+              <div class="detail-section">
+                <h3>适用场景</h3>
+                <p>适用于业务人员快速验证 AI Agent 的商业化能力，也适合团队把高频运营动作标准化为可复用工作流。</p>
+              </div>
+            </div>
+            <aside class="purchase-panel">
+              <div class="price">
+                <strong>¥${expert.price}</strong>
+                <span>每天100次</span>
+              </div>
+              <p class="vendor">试用后将进入 Agent 工作台，可直接与该专家对话并体验核心流程。</p>
+              <button class="primary-btn" type="button" data-action="trial" data-expert-id="${expert.id}">立即试用</button>
+              <button class="ghost-btn" type="button" data-action="back-market">返回专家广场</button>
+            </aside>
+          </div>
+        `;
+      }
+
+      function renderWorkbench(expert) {
+        workbenchView.innerHTML = `
+          <div class="breadcrumb">
+            <button type="button" data-action="back-market">能力市场</button>
+            <span>/</span>
+            <span>Agent工作台</span>
+          </div>
+          <div class="workbench-shell">
+            <aside class="agent-side">
+              <div class="agent-profile">
+                <div class="avatar-logo">${expert.logo}</div>
+                <h3>${expert.name}</h3>
+                <p>${expert.desc}</p>
+                <div class="price">
+                  <strong>¥${expert.price}</strong>
+                  <span>每天100次</span>
+                </div>
+              </div>
+              <div class="suggestions">
+                ${expert.features.map((feature) => `<button type="button" data-prompt="${feature}">${feature}</button>`).join("")}
+              </div>
+            </aside>
+            <section class="chat">
+              <div class="chat-head">
+                <h2>${expert.name} 对话工作台</h2>
+                <button class="ghost-btn" type="button" data-action="back-detail" data-expert-id="${expert.id}">查看详情</button>
+              </div>
+              <div class="messages" id="messages">
+                <div class="message agent">你好，我是${expert.name}。你可以直接告诉我业务目标、商品信息或运营数据，我会给出可执行的分析与下一步动作。</div>
+              </div>
+              <form class="composer" id="composer">
+                <textarea id="chatInput" placeholder="输入你想让专家处理的问题"></textarea>
+                <button class="primary-btn" type="submit">发送</button>
+              </form>
+            </section>
+          </div>
+        `;
+      }
+
+      document.querySelector(".mode-switch").addEventListener("click", (event) => {
+        const button = event.target.closest("[data-mode]");
+        if (!button) return;
+        state.mode = button.dataset.mode;
+        state.activeCategory = state.mode === "experts" ? "全部服务" : "电商";
+        render();
+      });
+
       filtersEl.addEventListener("click", (event) => {
         const button = event.target.closest("[data-category]");
         if (!button) return;
-        active = button.dataset.category;
-        renderFilters();
-        renderCards();
+        state.activeCategory = button.dataset.category;
+        render();
+      });
+
+      gridEl.addEventListener("click", (event) => {
+        const card = event.target.closest("[data-expert-id]");
+        if (!card) return;
+        showDetail(card.dataset.expertId);
+      });
+
+      gridEl.addEventListener("keydown", (event) => {
+        if (event.key !== "Enter") return;
+        const card = event.target.closest("[data-expert-id]");
+        if (!card) return;
+        showDetail(card.dataset.expertId);
+      });
+
+      detailView.addEventListener("click", (event) => {
+        const action = event.target.closest("[data-action]");
+        if (!action) return;
+        if (action.dataset.action === "back-market") showMarket();
+        if (action.dataset.action === "trial") showWorkbench(action.dataset.expertId);
+      });
+
+      workbenchView.addEventListener("click", (event) => {
+        const action = event.target.closest("[data-action]");
+        if (action?.dataset.action === "back-market") showMarket();
+        if (action?.dataset.action === "back-detail") showDetail(action.dataset.expertId);
+        const prompt = event.target.closest("[data-prompt]");
+        if (prompt) {
+          const input = document.querySelector("#chatInput");
+          input.value = prompt.dataset.prompt;
+          input.focus();
+        }
+      });
+
+      workbenchView.addEventListener("submit", (event) => {
+        if (event.target.id !== "composer") return;
+        event.preventDefault();
+        const input = document.querySelector("#chatInput");
+        const text = input.value.trim();
+        if (!text) return;
+        const messages = document.querySelector("#messages");
+        messages.insertAdjacentHTML("beforeend", `<div class="message user">${text}</div>`);
+        messages.insertAdjacentHTML("beforeend", `<div class="message agent">已收到。我会围绕“${text}”生成诊断结论、执行步骤和可复用模板。这个 demo 展示的是 Agent 工作台的对话使用流程。</div>`);
+        input.value = "";
       });
 
       document.querySelector(".search-box").addEventListener("submit", (event) => {
         event.preventDefault();
       });
 
-      renderFilters();
-      renderCards();
+      marketNav.addEventListener("click", (event) => {
+        event.preventDefault();
+        showMarket();
+      });
+
+      workbenchNav.addEventListener("click", (event) => {
+        event.preventDefault();
+        showWorkbench(state.selectedExpert.id);
+      });
+
+      render();
     </script>
   </body>
 </html>
