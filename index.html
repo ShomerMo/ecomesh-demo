@@ -1,0 +1,1101 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EcoMesh 能力市场</title>
+    <style>
+      :root {
+        --blue: #1677ff;
+        --blue-dark: #0f5de8;
+        --text: #111827;
+        --muted: #6b7280;
+        --soft: #f4f7fb;
+        --line: #e6ebf2;
+        --card: #ffffff;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        min-width: 320px;
+        color: var(--text);
+        background: #f7f9fd;
+        font-family: "Inter", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+        letter-spacing: 0;
+      }
+
+      button,
+      input {
+        font: inherit;
+      }
+
+      button {
+        cursor: pointer;
+      }
+
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        height: 50px;
+        border-bottom: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.96);
+        backdrop-filter: blur(12px);
+      }
+
+      .topbar-inner {
+        display: flex;
+        align-items: center;
+        gap: 22px;
+        max-width: 1440px;
+        height: 100%;
+        margin: 0 auto;
+        padding: 0 22px;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        min-width: 112px;
+        color: #111827;
+        text-decoration: none;
+        font-size: 18px;
+        font-weight: 800;
+      }
+
+      .brand-mark {
+        position: relative;
+        width: 28px;
+        height: 26px;
+      }
+
+      .brand-mark::before,
+      .brand-mark::after,
+      .brand-mark span {
+        position: absolute;
+        bottom: 0;
+        content: "";
+        border-radius: 4px 4px 2px 2px;
+        transform: skewX(-13deg);
+      }
+
+      .brand-mark::before {
+        left: 0;
+        width: 10px;
+        height: 18px;
+        background: linear-gradient(180deg, #16ccff, #1677ff);
+      }
+
+      .brand-mark span {
+        left: 8px;
+        width: 10px;
+        height: 25px;
+        background: linear-gradient(180deg, #2fe4b4, #2088ff);
+      }
+
+      .brand-mark::after {
+        right: 0;
+        width: 11px;
+        height: 14px;
+        background: linear-gradient(180deg, #1a66ff, #123fba);
+      }
+
+      .main-nav {
+        display: flex;
+        align-items: center;
+        gap: 22px;
+        flex: 1;
+        min-width: 0;
+        color: #374151;
+        font-size: 14px;
+      }
+
+      .main-nav a {
+        color: inherit;
+        text-decoration: none;
+        white-space: nowrap;
+      }
+
+      .main-nav a::after {
+        content: "⌄";
+        margin-left: 5px;
+        color: #6b7280;
+        font-size: 12px;
+      }
+
+      .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        color: #111827;
+        font-size: 14px;
+        white-space: nowrap;
+      }
+
+      .service-search {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        width: 220px;
+        height: 34px;
+        border: 1px solid var(--line);
+        border-radius: 4px;
+        padding: 0 12px;
+        color: #8b95a5;
+        background: #fff;
+      }
+
+      .avatar {
+        display: grid;
+        place-items: center;
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        color: #2f65d5;
+        background: #eaf1ff;
+        font-weight: 800;
+      }
+
+      .subnav {
+        height: 42px;
+        border-bottom: 1px solid var(--line);
+        background: #fff;
+      }
+
+      .subnav-inner {
+        display: flex;
+        align-items: center;
+        gap: 28px;
+        max-width: 1440px;
+        height: 100%;
+        margin: 0 auto;
+        padding: 0 30px;
+        font-size: 14px;
+        font-weight: 700;
+      }
+
+      .subnav a {
+        color: #64748b;
+        text-decoration: none;
+      }
+
+      .subnav .active {
+        color: var(--blue);
+      }
+
+      .hero {
+        position: relative;
+        overflow: hidden;
+        min-height: 250px;
+        border-bottom: 1px solid #eef2f7;
+        background:
+          radial-gradient(circle at 20% 18%, rgba(24, 119, 255, 0.12), transparent 28%),
+          radial-gradient(circle at 82% 2%, rgba(128, 91, 255, 0.11), transparent 30%),
+          linear-gradient(180deg, #f3f8ff 0%, #ffffff 88%);
+      }
+
+      .hero::before {
+        position: absolute;
+        inset: 0;
+        content: "";
+        opacity: 0.58;
+        background-image:
+          linear-gradient(90deg, rgba(155, 174, 207, 0.22) 1px, transparent 1px),
+          linear-gradient(180deg, rgba(155, 174, 207, 0.18) 1px, transparent 1px);
+        background-size: 155px 68px;
+        mask-image: linear-gradient(180deg, #000 0%, transparent 88%);
+      }
+
+      .hero::after {
+        position: absolute;
+        inset: 0;
+        content: "";
+        background:
+          linear-gradient(135deg, transparent 0 78px, rgba(145, 158, 186, 0.22) 79px, transparent 80px) 0 6px / 210px 90px,
+          linear-gradient(45deg, transparent 0 50px, rgba(80, 112, 210, 0.18) 51px, transparent 52px) 50px 24px / 240px 110px;
+        opacity: 0.55;
+        mask-image: linear-gradient(180deg, #000 0%, transparent 78%);
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        justify-items: center;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 40px 20px 38px;
+        text-align: center;
+      }
+
+      .hero h1 {
+        margin: 0;
+        font-size: 34px;
+        line-height: 44px;
+        font-weight: 900;
+      }
+
+      .hero p {
+        max-width: 620px;
+        margin: 12px 0 26px;
+        color: #5e6b7d;
+        font-size: 15px;
+        line-height: 26px;
+      }
+
+      .search-box {
+        display: flex;
+        align-items: center;
+        width: min(448px, 100%);
+        height: 44px;
+        border: 1px solid #dfe6f0;
+        border-radius: 24px;
+        padding: 4px;
+        background: #fff;
+        box-shadow: 0 8px 24px rgba(31, 57, 105, 0.09);
+      }
+
+      .search-box input {
+        min-width: 0;
+        flex: 1;
+        height: 100%;
+        border: 0;
+        outline: 0;
+        padding: 0 16px;
+        color: #111827;
+        background: transparent;
+        font-size: 14px;
+      }
+
+      .search-box input::placeholder {
+        color: #9aa4b2;
+      }
+
+      .search-box button {
+        width: 64px;
+        height: 34px;
+        border: 0;
+        border-radius: 18px;
+        color: #fff;
+        background: var(--blue);
+        font-size: 14px;
+        font-weight: 700;
+      }
+
+      .market {
+        display: grid;
+        grid-template-columns: 188px minmax(0, 1fr);
+        gap: 28px;
+        max-width: 1170px;
+        margin: 0 auto;
+        padding: 52px 20px 44px;
+      }
+
+      .sidebar {
+        position: sticky;
+        top: 116px;
+        align-self: start;
+      }
+
+      .mode-switch {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        height: 36px;
+        margin-bottom: 22px;
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        padding: 4px;
+        background: #f1f4f9;
+      }
+
+      .mode-switch button {
+        height: 28px;
+        border: 0;
+        border-radius: 15px;
+        padding: 0 15px;
+        color: #111827;
+        background: transparent;
+        font-size: 13px;
+        font-weight: 700;
+        white-space: nowrap;
+      }
+
+      .mode-switch .active {
+        color: #fff;
+        background: #050505;
+      }
+
+      .filters {
+        display: grid;
+        gap: 6px;
+      }
+
+      .filter {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        height: 36px;
+        border: 0;
+        border-radius: 8px;
+        padding: 0 18px 0 10px;
+        color: #111827;
+        background: transparent;
+        text-align: left;
+        font-size: 14px;
+      }
+
+      .filter.active {
+        background: #f0f3f8;
+        font-weight: 700;
+      }
+
+      .filter b {
+        color: #111827;
+        font-size: 12px;
+      }
+
+      .content-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        margin-bottom: 22px;
+      }
+
+      .content-head h2 {
+        margin: 0;
+        font-size: 18px;
+        line-height: 28px;
+        font-weight: 900;
+      }
+
+      .skill-tabs {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 4px;
+        border-radius: 4px;
+        background: #f4f6fa;
+      }
+
+      .skill-tabs button {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        height: 28px;
+        border: 0;
+        border-radius: 4px;
+        padding: 0 10px;
+        color: #1f2937;
+        background: transparent;
+        font-size: 13px;
+      }
+
+      .skill-tabs .active {
+        background: #fff;
+        box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 22px 16px;
+      }
+
+      .card {
+        min-height: 166px;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 17px;
+        background: var(--card);
+        box-shadow: 0 8px 22px rgba(20, 35, 66, 0.06);
+      }
+
+      .card-top {
+        display: grid;
+        grid-template-columns: 32px minmax(0, 1fr) auto;
+        gap: 12px;
+        align-items: start;
+      }
+
+      .cube {
+        display: grid;
+        place-items: center;
+        width: 32px;
+        height: 32px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        color: #627188;
+        background: #fff;
+      }
+
+      .card h3 {
+        margin: 0;
+        overflow: hidden;
+        color: #111827;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 17px;
+        line-height: 22px;
+        font-weight: 900;
+      }
+
+      .vendor {
+        margin: 3px 0 0;
+        overflow: hidden;
+        color: #4b5563;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 13px;
+        line-height: 19px;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        height: 24px;
+        border-radius: 4px;
+        padding: 0 8px;
+        color: #1f2937;
+        background: #f5f7fa;
+        font-size: 12px;
+        white-space: nowrap;
+      }
+
+      .desc {
+        display: -webkit-box;
+        min-height: 44px;
+        margin: 22px 0 14px;
+        overflow: hidden;
+        color: #657489;
+        font-size: 13px;
+        line-height: 22px;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+      }
+
+      .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+
+      .tag {
+        border-radius: 4px;
+        padding: 3px 7px;
+        color: #667085;
+        background: #f3f6fa;
+        font-size: 12px;
+        line-height: 18px;
+      }
+
+      .pager {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 7px;
+        margin-top: 24px;
+        color: #4b5563;
+        font-size: 13px;
+      }
+
+      .page-btn {
+        display: grid;
+        place-items: center;
+        min-width: 26px;
+        height: 26px;
+        border: 1px solid #dce3ee;
+        border-radius: 5px;
+        color: #111827;
+        background: #fff;
+        font-size: 13px;
+      }
+
+      .page-btn.active {
+        border-color: var(--blue);
+        color: var(--blue);
+        background: #eef5ff;
+      }
+
+      .service-band {
+        border-top: 1px solid #edf1f7;
+        background: #eef3fb;
+      }
+
+      .service-inner {
+        max-width: 1170px;
+        margin: 0 auto;
+        padding: 28px 20px;
+      }
+
+      .promise-row {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 28px;
+        padding-bottom: 26px;
+        border-bottom: 1px solid #dce4ef;
+      }
+
+      .promise {
+        display: grid;
+        grid-template-columns: 42px 1fr;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .promise svg {
+        color: #0f2440;
+      }
+
+      .promise strong {
+        display: block;
+        margin-bottom: 6px;
+        font-size: 16px;
+      }
+
+      .promise span {
+        color: #5c6878;
+        font-size: 14px;
+      }
+
+      .footer {
+        background: #eef3fb;
+      }
+
+      .footer-inner {
+        max-width: 1170px;
+        margin: 0 auto;
+        padding: 24px 20px 34px;
+      }
+
+      .footer-main {
+        display: grid;
+        grid-template-columns: 1.2fr repeat(4, 1fr) 1.8fr;
+        gap: 34px;
+        padding: 24px 0 46px;
+      }
+
+      .footer-logo {
+        align-items: flex-start;
+      }
+
+      .footer-col h4 {
+        margin: 0 0 15px;
+        font-size: 15px;
+      }
+
+      .footer-col a,
+      .footer-col p {
+        display: block;
+        margin: 0 0 11px;
+        color: #4b5563;
+        text-decoration: none;
+        font-size: 14px;
+        line-height: 20px;
+      }
+
+      .qr-row {
+        display: flex;
+        gap: 16px;
+        margin-top: 14px;
+      }
+
+      .qr {
+        text-align: center;
+        color: #4b5563;
+        font-size: 13px;
+      }
+
+      .qr-box {
+        display: grid;
+        place-items: center;
+        width: 66px;
+        height: 66px;
+        margin-bottom: 8px;
+        border-radius: 2px;
+        background:
+          linear-gradient(90deg, #111 8px, transparent 8px 12px, #111 12px 16px, transparent 16px) 7px 7px / 24px 24px,
+          linear-gradient(90deg, transparent 6px, #111 6px 10px, transparent 10px 14px, #111 14px 18px) 10px 38px / 24px 20px,
+          #fff;
+        border: 1px solid #e1e6ef;
+      }
+
+      .copyright {
+        border-top: 1px solid #dce4ef;
+        padding-top: 24px;
+        color: #4b5563;
+        text-align: center;
+        font-size: 13px;
+        line-height: 26px;
+      }
+
+      .partner {
+        position: fixed;
+        right: 22px;
+        bottom: 94px;
+        display: grid;
+        justify-items: center;
+        gap: 7px;
+        width: 48px;
+        min-height: 128px;
+        border: 0;
+        border-radius: 24px;
+        color: #fff;
+        background: #1677ff;
+        box-shadow: 0 16px 32px rgba(22, 119, 255, 0.28);
+      }
+
+      .partner span {
+        writing-mode: vertical-rl;
+        letter-spacing: 2px;
+        font-size: 14px;
+        font-weight: 800;
+      }
+
+      .icon {
+        width: 16px;
+        height: 16px;
+      }
+
+      @media (max-width: 1100px) {
+        .main-nav {
+          display: none;
+        }
+
+        .market {
+          grid-template-columns: 1fr;
+        }
+
+        .sidebar {
+          position: static;
+        }
+
+        .filters {
+          grid-template-columns: repeat(4, minmax(120px, 1fr));
+        }
+
+        .footer-main {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+
+      @media (max-width: 760px) {
+        .topbar-inner {
+          gap: 12px;
+          padding: 0 14px;
+        }
+
+        .service-search,
+        .header-actions a:nth-of-type(2),
+        .header-actions a:nth-of-type(3) {
+          display: none;
+        }
+
+        .subnav-inner {
+          padding: 0 16px;
+        }
+
+        .hero h1 {
+          font-size: 28px;
+          line-height: 36px;
+        }
+
+        .grid {
+          grid-template-columns: 1fr;
+        }
+
+        .content-head {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .filters,
+        .promise-row,
+        .footer-main {
+          grid-template-columns: 1fr;
+        }
+
+        .promise-row {
+          gap: 18px;
+        }
+
+        .partner {
+          right: 12px;
+          bottom: 24px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a class="brand" href="#" aria-label="火山引擎">
+          <span class="brand-mark"><span></span></span>
+          火山引擎
+        </a>
+        <nav class="main-nav" aria-label="主导航">
+          <a href="#">最新活动</a>
+          <a href="#">大模型</a>
+          <a href="#">产品</a>
+          <a href="#">解决方案</a>
+          <a href="#">定价</a>
+          <a href="#">生态与合作</a>
+          <a href="#">支持与服务</a>
+          <a href="#">开发者</a>
+          <a href="#">了解我们</a>
+        </nav>
+        <div class="header-actions">
+          <div class="service-search">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 3v3M12 18v3M4.6 6.6l2.1 2.1M17.3 17.3l2.1 2.1M3 12h3M18 12h3M4.6 17.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
+            火山方舟大模型服务平台
+          </div>
+          <a>文档</a>
+          <a>备案</a>
+          <a>控制台</a>
+          <div class="avatar">E</div>
+        </div>
+      </div>
+    </header>
+
+    <nav class="subnav" aria-label="EcoMesh 导航">
+      <div class="subnav-inner">
+        <a href="#">EcoMesh</a>
+        <a class="active" href="#">能力市场</a>
+        <a href="#">Agent工作台</a>
+      </div>
+    </nav>
+
+    <section class="hero">
+      <div class="hero-content">
+        <h1>EcoMesh能力市场</h1>
+        <p>深耕电商、本地生活、小游戏与红果短剧四大黄金赛道。海量即插即用、高转化的商业级 Skill，助你抢人一步抢占 AI 增长红利。</p>
+        <form class="search-box">
+          <input type="search" placeholder="搜索你感兴趣的技能" />
+          <button type="submit">搜索</button>
+        </form>
+      </div>
+    </section>
+
+    <main class="market">
+      <aside class="sidebar">
+        <div class="mode-switch" aria-label="市场切换">
+          <button type="button">专家Agent</button>
+          <button class="active" type="button">Agent技能</button>
+        </div>
+        <nav class="filters" id="filters" aria-label="服务分类"></nav>
+      </aside>
+
+      <section>
+        <div class="content-head">
+          <h2>Agent技能市场</h2>
+          <div class="skill-tabs" aria-label="技能类型">
+            <button class="active" type="button">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3v3M12 18v3M5 5l2 2M17 17l2 2M3 12h3M18 12h3M5 19l2-2M17 7l2-2" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+              知识型技能
+            </button>
+            <button type="button">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 8h16v11H4V8ZM8 8V5h8v3M4 12h16" stroke="currentColor" stroke-width="2" stroke-linejoin="round" /></svg>
+              工具型技能
+            </button>
+          </div>
+        </div>
+        <div class="grid" id="grid"></div>
+        <div class="pager">
+          <span>共 164 项</span>
+          <button class="page-btn" type="button">‹</button>
+          <button class="page-btn active" type="button">1</button>
+          <button class="page-btn" type="button">2</button>
+          <button class="page-btn" type="button">3</button>
+          <button class="page-btn" type="button">4</button>
+          <button class="page-btn" type="button">5</button>
+          <span>…</span>
+          <button class="page-btn" type="button">17</button>
+          <button class="page-btn" type="button">›</button>
+        </div>
+      </section>
+    </main>
+
+    <section class="service-band">
+      <div class="service-inner">
+        <div class="promise-row">
+          <div class="promise">
+            <svg width="42" height="42" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M16 9c-4 2-7 7-7 13 0 9 7 16 16 16h2" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" /><path d="M13 30c5 8 11 11 19 8l2-6-7-3-3 4c-3-2-6-5-8-8l4-3-3-7-6 2c-1 5 0 9 2 13Z" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" /><circle cx="31" cy="15" r="8" stroke="#1677ff" stroke-width="2.4" /><path d="M31 10v6l4 2" stroke="#1677ff" stroke-width="2.4" stroke-linecap="round" /></svg>
+            <div><strong>全天候售后服务</strong><span>7x24小时专业工程师品质服务</span></div>
+          </div>
+          <div class="promise">
+            <svg width="42" height="42" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M10 31V21a14 14 0 0 1 28 0v10" stroke="currentColor" stroke-width="2.4" /><path d="M10 29h8v11h-4a4 4 0 0 1-4-4v-7ZM38 29h-8v11h4a4 4 0 0 0 4-4v-7Z" stroke="#1677ff" stroke-width="2.4" stroke-linejoin="round" /></svg>
+            <div><strong>极速服务应答</strong><span>秒级应答为业务保驾护航</span></div>
+          </div>
+          <div class="promise">
+            <svg width="42" height="42" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M12 31 31 12l5 5-19 19h-5v-5Z" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" /><path d="m26 17 5 5M9 14l7-7 7 7-7 7-7-7ZM25 34l7-7 7 7-7 7-7-7Z" stroke="#1677ff" stroke-width="2.4" stroke-linejoin="round" /></svg>
+            <div><strong>客户价值为先</strong><span>从服务价值到创造客户价值</span></div>
+          </div>
+          <div class="promise">
+            <svg width="42" height="42" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M24 7 38 12v11c0 9-5 15-14 19-9-4-14-10-14-19V12l14-5Z" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" /><path d="m17 24 5 5 10-11" stroke="#1677ff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            <div><strong>全方位安全保障</strong><span>打造一朵透明可信的云</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        <div class="footer-main">
+          <a class="brand footer-logo" href="#" aria-label="火山引擎">
+            <span class="brand-mark"><span></span></span>
+            火山引擎
+          </a>
+          <div class="footer-col">
+            <h4>关于我们</h4>
+            <a href="#">为什么选火山</a>
+            <a href="#">文档中心</a>
+            <a href="#">联系我们</a>
+            <a href="#">人才招聘</a>
+            <a href="#">云信任中心</a>
+            <a href="#">友情链接</a>
+          </div>
+          <div class="footer-col">
+            <h4>产品</h4>
+            <a href="#">云服务器</a>
+            <a href="#">GPU云服务器</a>
+            <a href="#">机器学习平台</a>
+            <a href="#">客户数据平台 VeCDP</a>
+            <a href="#">飞连</a>
+            <a href="#">视频直播</a>
+            <a href="#">全部产品</a>
+          </div>
+          <div class="footer-col">
+            <h4>解决方案</h4>
+            <a href="#">汽车行业</a>
+            <a href="#">金融行业</a>
+            <a href="#">文娱行业</a>
+            <a href="#">医疗健康行业</a>
+            <a href="#">传媒行业</a>
+            <a href="#">智慧文旅</a>
+            <a href="#">大消费</a>
+          </div>
+          <div class="footer-col">
+            <h4>服务与支持</h4>
+            <a href="#">备案服务</a>
+            <a href="#">服务咨询</a>
+            <a href="#">建议与反馈</a>
+            <a href="#">廉洁舞弊举报</a>
+            <a href="#">举报平台</a>
+          </div>
+          <div class="footer-col">
+            <h4>联系我们</h4>
+            <p>业务咨询：service@volcengine.com</p>
+            <p>市场合作：marketing@volcengine.com</p>
+            <p>电话：400-850-0030</p>
+            <p>地址：北京市海淀区北三环西路甲18号院大钟寺广场1号楼</p>
+            <div class="qr-row">
+              <div class="qr"><div class="qr-box"></div>微信公众号</div>
+              <div class="qr"><div class="qr-box"></div>抖音号</div>
+              <div class="qr"><div class="qr-box"></div>视频号</div>
+            </div>
+          </div>
+        </div>
+        <div class="copyright">
+          © 北京火山引擎科技有限公司 2026 版权所有　代理域名注册服务机构：新网数码 商中在线　服务条款　隐私政策　更多协议<br />
+          京公网安备11010802032137号　京ICP备20018813号-3　营业执照　增值电信业务经营许可证B2-20202418
+        </div>
+      </div>
+    </footer>
+
+    <button class="partner" type="button" aria-label="生态合作">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M5 5h14v10H9l-4 4V5Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+        <path d="M8 9h8M8 12h5" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+      </svg>
+      <span>生态合作</span>
+    </button>
+
+    <script>
+      const categories = [
+        ["电商", 38],
+        ["短剧", 24],
+        ["生活服务", 31],
+        ["游戏", 18],
+        ["金融", 12],
+        ["效率办公", 16],
+        ["媒体内容", 15],
+        ["数据分析", 10]
+      ];
+
+      const skills = [
+        {
+          name: "商品上架助手",
+          vendor: "灵火数字零售（杭州）有限公司",
+          category: "电商",
+          type: "工具型技能",
+          desc: "面向抖店、淘宝与小红书商家，自动提取商品卖点、生成标题、详情页文案与多平台发布字段。",
+          tags: ["API 集成", "文件读写", "自动化"]
+        },
+        {
+          name: "直播间话术生成",
+          vendor: "星跃电商科技（上海）有限公司",
+          category: "电商",
+          type: "知识型技能",
+          desc: "根据商品卖点、优惠节奏和用户评论生成直播脚本，支持开场、逼单、答疑和复盘建议。",
+          tags: ["知识库", "自动化", "内容生成"]
+        },
+        {
+          name: "短剧投流诊断",
+          vendor: "红果增长智能（北京）有限公司",
+          category: "短剧",
+          type: "工具型技能",
+          desc: "汇总消耗、点击率、完播率和付费转化，定位短剧投放素材衰减与人群错配问题。",
+          tags: ["实时数据", "投放分析", "API 集成"]
+        },
+        {
+          name: "爆款剧情拆解",
+          vendor: "云幕文娱科技（杭州）有限公司",
+          category: "短剧",
+          type: "知识型技能",
+          desc: "提取短剧前三集冲突、钩子、反转与付费点，输出适合编剧和投手共用的结构化拆解。",
+          tags: ["知识型技能", "内容分析", "文件读写"]
+        },
+        {
+          name: "门店运营巡检",
+          vendor: "本地蜂巢科技（上海）有限公司",
+          category: "生活服务",
+          type: "工具型技能",
+          desc: "自动读取门店评价、团购核销与客诉记录，生成服务改进清单和高优先级处理建议。",
+          tags: ["实时数据", "自动化", "协同任务"]
+        },
+        {
+          name: "到店套餐策划",
+          vendor: "轻舟生活服务（成都）有限公司",
+          category: "生活服务",
+          type: "知识型技能",
+          desc: "结合商圈、客单价和节假日热点，生成餐饮、美业、亲子门店的套餐结构和营销文案。",
+          tags: ["搜索引擎", "内容生成", "知识库"]
+        },
+        {
+          name: "小游戏关卡复盘",
+          vendor: "跃点互动科技（深圳）有限公司",
+          category: "游戏",
+          type: "工具型技能",
+          desc: "分析关卡流失、广告触发与付费节点，帮助小游戏团队快速定位难度曲线和商业化问题。",
+          tags: ["数据分析", "实时数据", "可视化"]
+        },
+        {
+          name: "游戏素材命名",
+          vendor: "像素增长引擎（广州）有限公司",
+          category: "游戏",
+          type: "工具型技能",
+          desc: "根据素材画面、角色、玩法卖点生成规范命名，支持投放平台批量识别和资产管理。",
+          tags: ["文件读写", "批量处理", "自动化"]
+        },
+        {
+          name: "企业发票核验",
+          vendor: "企云互联（北京）信息技术有限公司",
+          category: "金融",
+          type: "工具型技能",
+          desc: "对接发票验真与企业工商信息，自动识别抬头、税号、金额和交易风险，辅助财务合规。",
+          tags: ["API 集成", "官方认证", "安全扫描"]
+        },
+        {
+          name: "经营风险雷达",
+          vendor: "量子数聚（北京）科技有限公司",
+          category: "金融",
+          type: "知识型技能",
+          desc: "监测工商、司法、舆情和招投标数据，生成企业风险摘要和合作准入建议。",
+          tags: ["实时数据", "搜索引擎", "安全扫描"]
+        }
+      ];
+
+      const filtersEl = document.querySelector("#filters");
+      const gridEl = document.querySelector("#grid");
+      let active = "电商";
+
+      function cubeIcon() {
+        return `
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="m12 3 8 4.5v9L12 21l-8-4.5v-9L12 3Z" fill="#64748b"/>
+            <path d="m8 8 4 2.3L16 8M12 10.3V15" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        `;
+      }
+
+      function badgeIcon(type) {
+        if (type === "知识型技能") {
+          return `<svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3v3M12 18v3M5 5l2 2M17 17l2 2M3 12h3M18 12h3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`;
+        }
+        return `<svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 8h16v11H4V8ZM8 8V5h8v3M4 12h16" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>`;
+      }
+
+      function renderFilters() {
+        filtersEl.innerHTML = categories
+          .map(([name, count]) => `
+            <button class="filter ${name === active ? "active" : ""}" type="button" data-category="${name}">
+              <span>${name}</span>
+              <b>${count}</b>
+            </button>
+          `)
+          .join("");
+      }
+
+      function renderCards() {
+        const chosen = skills.filter((skill) => skill.category === active);
+        const fallback = chosen.length ? chosen : skills.slice(0, 2).map((skill) => ({ ...skill, category: active }));
+        const visible = Array.from({ length: 10 }, (_, index) => {
+          const seed = fallback[index % fallback.length];
+          const suffixes = ["", "专业版", "增长版", "协同版", "企业版"];
+          return {
+            ...seed,
+            name: `${seed.name}${suffixes[Math.floor(index / fallback.length)] || ""}`
+          };
+        });
+
+        gridEl.innerHTML = visible
+          .map((skill) => `
+            <article class="card">
+              <div class="card-top">
+                <div class="cube">${cubeIcon()}</div>
+                <div>
+                  <h3>${skill.name}</h3>
+                  <p class="vendor">by ${skill.vendor}</p>
+                </div>
+                <span class="badge">${badgeIcon(skill.type)} ${skill.type}</span>
+              </div>
+              <p class="desc">${skill.desc}</p>
+              <div class="tags">
+                ${skill.tags.map((tag) => `<span class="tag">${tag}</span>`).join("")}
+              </div>
+            </article>
+          `)
+          .join("");
+      }
+
+      filtersEl.addEventListener("click", (event) => {
+        const button = event.target.closest("[data-category]");
+        if (!button) return;
+        active = button.dataset.category;
+        renderFilters();
+        renderCards();
+      });
+
+      document.querySelector(".search-box").addEventListener("submit", (event) => {
+        event.preventDefault();
+      });
+
+      renderFilters();
+      renderCards();
+    </script>
+  </body>
+</html>
