@@ -587,11 +587,16 @@
         background: #eef5ff;
       }
 
-      .detail,
-      .workbench {
+      .detail {
         max-width: 1170px;
         margin: 0 auto;
         padding: 40px 20px 52px;
+      }
+
+      .workbench {
+        max-width: 1520px;
+        margin: 0 auto;
+        padding: 22px 18px 52px;
       }
 
       .breadcrumb {
@@ -699,13 +704,106 @@
 
       .workbench-shell {
         display: grid;
-        grid-template-columns: 250px minmax(0, 1fr);
-        min-height: 640px;
+        grid-template-columns: 200px 250px minmax(430px, 1fr) 360px;
+        min-height: 700px;
+        height: calc(100vh - 134px);
         border: 1px solid var(--line);
-        border-radius: 10px;
+        border-radius: 14px;
         overflow: hidden;
         background: #fff;
         box-shadow: 0 12px 30px rgba(20, 35, 66, 0.07);
+      }
+
+      .workspace-nav {
+        display: grid;
+        grid-template-rows: auto auto 1fr;
+        border-right: 1px solid var(--line);
+        padding: 18px;
+        background: #fbfcff;
+      }
+
+      .workspace-user {
+        display: grid;
+        grid-template-columns: 38px 1fr;
+        gap: 10px;
+        align-items: center;
+        margin-bottom: 18px;
+      }
+
+      .workspace-user .avatar-logo {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+      }
+
+      .workspace-user strong {
+        display: block;
+        font-size: 14px;
+      }
+
+      .workspace-user span {
+        color: #64748b;
+        font-size: 12px;
+      }
+
+      .nav-pill {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        height: 38px;
+        border: 1px solid #e0e7f2;
+        border-radius: 20px;
+        color: #1f2937;
+        background: #fff;
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .nav-group {
+        display: grid;
+        align-content: start;
+        gap: 10px;
+        margin-top: 22px;
+      }
+
+      .nav-group-title {
+        margin: 0 0 2px;
+        color: #111827;
+        font-size: 13px;
+        font-weight: 900;
+      }
+
+      .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        height: 38px;
+        border: 0;
+        border-radius: 20px;
+        padding: 0 12px;
+        color: #334155;
+        background: transparent;
+        text-align: left;
+        font-size: 13px;
+      }
+
+      .nav-item.active {
+        color: #175cff;
+        background: #ecefff;
+      }
+
+      .recent-item {
+        display: grid;
+        grid-template-columns: 18px 1fr auto;
+        gap: 8px;
+        align-items: center;
+        height: 34px;
+        border-radius: 10px;
+        padding: 0 8px;
+        color: #475569;
+        background: #f0f3fa;
+        font-size: 12px;
       }
 
       .agent-side {
@@ -747,6 +845,35 @@
         margin-top: 18px;
       }
 
+      .model-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        margin-bottom: 18px;
+      }
+
+      .model-select {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        height: 30px;
+        color: #111827;
+        font-size: 14px;
+        font-weight: 900;
+      }
+
+      .small-chip {
+        height: 26px;
+        border: 0;
+        border-radius: 6px;
+        padding: 0 9px;
+        color: #475569;
+        background: #eef1f7;
+        font-size: 12px;
+        font-weight: 700;
+      }
+
       .suggestion-title {
         margin: 0 0 2px;
         color: #475569;
@@ -769,6 +896,7 @@
         display: grid;
         grid-template-rows: auto 1fr auto;
         min-width: 0;
+        background: #fff;
       }
 
       .chat-head {
@@ -792,6 +920,7 @@
         gap: 16px;
         padding: 24px;
         background: linear-gradient(180deg, #fff, #fbfdff);
+        overflow: auto;
       }
 
       .message {
@@ -844,6 +973,131 @@
         outline: 0;
         padding: 12px;
         font-size: 14px;
+      }
+
+      .artifact-panel {
+        display: grid;
+        grid-template-rows: auto 1fr;
+        border-left: 1px solid var(--line);
+        background: #eef2f8;
+      }
+
+      .artifact-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 64px;
+        border-bottom: 1px solid #dfe6f0;
+        padding: 0 16px;
+      }
+
+      .artifact-head h3 {
+        margin: 0;
+        font-size: 16px;
+      }
+
+      .view-switch {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        color: #475569;
+        font-size: 12px;
+      }
+
+      .view-switch span {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        white-space: nowrap;
+      }
+
+      .view-dot {
+        display: inline-block;
+        width: 13px;
+        height: 13px;
+        border: 2px solid #111827;
+        border-radius: 3px;
+        background: #fff;
+      }
+
+      .view-dot.active {
+        border-color: #175cff;
+        box-shadow: inset 0 0 0 2px #fff;
+        background: #175cff;
+      }
+
+      .artifact-canvas {
+        display: grid;
+        align-content: start;
+        gap: 14px;
+        padding: 18px;
+        overflow: auto;
+      }
+
+      .artifact-toolbar {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+      }
+
+      .tool-round {
+        display: grid;
+        place-items: center;
+        width: 36px;
+        height: 36px;
+        border: 0;
+        border-radius: 50%;
+        color: #fff;
+        background: #8f96a3;
+        box-shadow: 0 6px 12px rgba(15, 23, 42, 0.18);
+      }
+
+      .artifact-doc {
+        border: 1px solid #d8e0ec;
+        border-radius: 12px;
+        padding: 18px;
+        background: #fff;
+        box-shadow: 0 10px 24px rgba(20, 35, 66, 0.07);
+      }
+
+      .artifact-doc h4 {
+        margin: 0 0 12px;
+        font-size: 16px;
+      }
+
+      .artifact-doc p {
+        margin: 0 0 10px;
+        color: #5f6b7c;
+        font-size: 13px;
+        line-height: 22px;
+      }
+
+      .artifact-doc table {
+        width: 100%;
+        border-collapse: collapse;
+        overflow: hidden;
+        border-radius: 8px;
+        font-size: 12px;
+      }
+
+      .artifact-doc th,
+      .artifact-doc td {
+        border: 1px solid #e5ebf3;
+        padding: 8px;
+        text-align: left;
+      }
+
+      .artifact-doc th {
+        color: #334155;
+        background: #f4f7fb;
+      }
+
+      .artifact-list {
+        margin: 0;
+        padding-left: 18px;
+        color: #475569;
+        font-size: 13px;
+        line-height: 24px;
       }
 
       .service-band {
@@ -997,6 +1251,18 @@
         .workbench-shell,
         .detail-card {
           grid-template-columns: 1fr;
+        }
+
+        .workbench-shell {
+          height: auto;
+        }
+
+        .workspace-nav,
+        .agent-side,
+        .artifact-panel {
+          border-right: 0;
+          border-left: 0;
+          border-bottom: 1px solid var(--line);
         }
 
         .sidebar {
@@ -1716,16 +1982,79 @@
         messages.scrollTop = messages.scrollHeight;
       }
 
+      function renderArtifactPreview(expert) {
+        const primary = expert.features[0];
+        return `
+          <div class="artifact-toolbar">
+            <button class="tool-round" type="button" aria-label="保存">▣</button>
+            <button class="tool-round" type="button" aria-label="刷新">↻</button>
+            <button class="tool-round" type="button" aria-label="全屏">⛶</button>
+          </div>
+          <article class="artifact-doc">
+            <h4>${expert.name} · 产物预览</h4>
+            <p>基于「${primary}」生成的示例产物。真实接入业务数据后，右侧会同步展示结构化结果、表格、文案或诊断报告。</p>
+            <table>
+              <thead>
+                <tr>
+                  <th>模块</th>
+                  <th>示例输出</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>输入识别</td>
+                  <td>${expert.category}目标、商品/数据字段、约束条件</td>
+                </tr>
+                <tr>
+                  <td>核心结论</td>
+                  <td>${expert.features.slice(0, 2).join("、")}</td>
+                </tr>
+                <tr>
+                  <td>下一步</td>
+                  <td>补充真实业务数据后生成完整执行表</td>
+                </tr>
+              </tbody>
+            </table>
+          </article>
+          <article class="artifact-doc">
+            <h4>待办清单</h4>
+            <ul class="artifact-list">
+              <li>确认业务目标和目标平台</li>
+              <li>上传商品资料、运营数据或用户反馈</li>
+              <li>由 Agent 输出可复制结果</li>
+              <li>人工确认后发布或同步到业务系统</li>
+            </ul>
+          </article>
+        `;
+      }
+
       function renderWorkbench(expert) {
         const prompts = getSuggestedPrompts(expert);
         workbenchView.innerHTML = `
-          <div class="breadcrumb">
-            <button type="button" data-action="back-market">能力市场</button>
-            <span>/</span>
-            <span>Agent工作台</span>
-          </div>
           <div class="workbench-shell">
+            <aside class="workspace-nav">
+              <div class="workspace-user">
+                <div class="avatar-logo">E</div>
+                <div>
+                  <strong>EcoMesh</strong>
+                  <span>Agent工作台</span>
+                </div>
+              </div>
+              <button class="nav-pill" type="button">▣ 文件空间</button>
+              <div class="nav-group">
+                <p class="nav-group-title">Claw</p>
+                <button class="nav-item active" type="button">＋ 新对话</button>
+                <button class="nav-item" type="button">◴ 定时任务</button>
+                <p class="nav-group-title" style="margin-top: 20px;">最近对话</p>
+                <div class="recent-item"><span>◉</span><span>${expert.name}能力介...</span><span>⋮</span></div>
+                <div class="recent-item"><span>◉</span><span>${expert.category}产物预览</span><span>⋮</span></div>
+              </div>
+            </aside>
             <aside class="agent-side">
+              <div class="model-row">
+                <div class="model-select">qwen3.5-plus ⌄</div>
+                <button class="small-chip" type="button">⊕ 添加模型</button>
+              </div>
               <div class="agent-profile">
                 <div class="avatar-logo">${expert.logo}</div>
                 <h3>${expert.name}</h3>
@@ -1754,6 +2083,18 @@
                 <button class="primary-btn" type="submit">发送</button>
               </form>
             </section>
+            <aside class="artifact-panel">
+              <div class="artifact-head">
+                <h3>产物预览</h3>
+                <div class="view-switch">
+                  <span><i class="view-dot active"></i> 默认视图</span>
+                  <span><i class="view-dot"></i> 对话视图</span>
+                </div>
+              </div>
+              <div class="artifact-canvas" id="artifactCanvas">
+                ${renderArtifactPreview(expert)}
+              </div>
+            </aside>
           </div>
         `;
       }
