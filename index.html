@@ -747,6 +747,13 @@
         margin-top: 18px;
       }
 
+      .suggestion-title {
+        margin: 0 0 2px;
+        color: #475569;
+        font-size: 13px;
+        font-weight: 800;
+      }
+
       .suggestions button {
         border: 1px solid #dbe4f0;
         border-radius: 6px;
@@ -793,6 +800,19 @@
         padding: 12px 14px;
         font-size: 14px;
         line-height: 24px;
+      }
+
+      .message strong {
+        color: inherit;
+      }
+
+      .message ul {
+        margin: 8px 0 0;
+        padding-left: 18px;
+      }
+
+      .message li {
+        margin: 3px 0;
       }
 
       .message.agent {
@@ -1576,7 +1596,68 @@
         `;
       }
 
+      function getSuggestedPrompts(expert) {
+        return [
+          "你有哪些能力",
+          `介绍${expert.name}的商品价值`,
+          `如何开始使用${expert.name}`,
+          ...expert.features.slice(0, 3)
+        ];
+      }
+
+      function escapeHtml(value) {
+        return value.replace(/[&<>"']/g, (char) => ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#39;"
+        })[char]);
+      }
+
+      function getAgentReply(expert, prompt) {
+        const normalized = prompt.replace(/\s/g, "");
+        if (/能力|能做|有哪些|介绍|商品价值/.test(normalized)) {
+          return `
+            <strong>${expert.name}的核心能力包括：</strong>
+            <ul>
+              ${expert.features.map((feature) => `<li>${feature}</li>`).join("")}
+            </ul>
+            我适合处理「${expert.category}」场景里的高频运营问题，可以把零散信息整理成诊断结论、执行步骤和可复用模板。
+          `;
+        }
+        if (/价格|收费|费用|次数|套餐/.test(normalized)) {
+          return `当前商品价格为 <strong>¥${expert.price}</strong>，权益单位是 <strong>每天100次</strong>。你可以先试用对话流程，再决定是否把它接入实际业务数据。`;
+        }
+        if (/怎么用|开始|使用|流程|接入/.test(normalized)) {
+          return `
+            <strong>建议按三步开始：</strong>
+            <ul>
+              <li>先告诉我你的业务目标，比如提升转化、降低人工整理成本或生成运营方案。</li>
+              <li>再补充商品、门店、用户、投放或财务等基础信息。</li>
+              <li>我会输出结构化结论、下一步动作和可复制的话术/表格模板。</li>
+            </ul>
+          `;
+        }
+        if (/案例|示例|demo|样例/.test(normalized)) {
+          return `
+            <strong>示例：</strong>如果你给我一组商品卖点、目标平台和促销节点，我可以返回标题方案、内容脚本、风险提醒和发布字段清单。这个 demo 当前展示的是对话体验，真实接入后可替换为你的业务数据源。
+          `;
+        }
+        const matchedFeature = expert.features.find((feature) => normalized.includes(feature.replace(/\s/g, "")));
+        if (matchedFeature) {
+          return `围绕「${matchedFeature}」，我会先识别输入信息的关键字段，再输出判断依据、执行动作和结果模板。你可以继续补充一条真实业务信息，我会按该能力给出示例处理结果。`;
+        }
+        return `已收到。我会围绕“${escapeHtml(prompt)}”结合${expert.name}的能力，生成诊断结论、执行步骤和可复用模板。你也可以点击左侧快捷问题查看能力介绍 demo。`;
+      }
+
+      function appendMessage(messages, role, content) {
+        messages.insertAdjacentHTML("beforeend", `<div class="message ${role}">${content}</div>`);
+        messages.scrollTop = messages.scrollHeight;
+      }
+
       function renderWorkbench(expert) {
+        const prompts = getSuggestedPrompts(expert);
         workbenchView.innerHTML = `
           <div class="breadcrumb">
             <button type="button" data-action="back-market">能力市场</button>
@@ -1595,7 +1676,8 @@
                 </div>
               </div>
               <div class="suggestions">
-                ${expert.features.map((feature) => `<button type="button" data-prompt="${feature}">${feature}</button>`).join("")}
+                <p class="suggestion-title">试试这样问</p>
+                ${prompts.map((prompt) => `<button type="button" data-prompt="${prompt}">${prompt}</button>`).join("")}
               </div>
             </aside>
             <section class="chat">
@@ -1605,6 +1687,7 @@
               </div>
               <div class="messages" id="messages">
                 <div class="message agent">你好，我是${expert.name}。你可以直接告诉我业务目标、商品信息或运营数据，我会给出可执行的分析与下一步动作。</div>
+                <div class="message agent">${getAgentReply(expert, "你有哪些能力")}</div>
               </div>
               <form class="composer" id="composer">
                 <textarea id="chatInput" placeholder="输入你想让专家处理的问题"></textarea>
@@ -1657,7 +1740,11 @@
         const prompt = event.target.closest("[data-prompt]");
         if (prompt) {
           const input = document.querySelector("#chatInput");
-          input.value = prompt.dataset.prompt;
+          const text = prompt.dataset.prompt;
+          const messages = document.querySelector("#messages");
+          appendMessage(messages, "user", escapeHtml(text));
+          appendMessage(messages, "agent", getAgentReply(state.selectedExpert, text));
+          input.value = "";
           input.focus();
         }
       });
@@ -1669,8 +1756,8 @@
         const text = input.value.trim();
         if (!text) return;
         const messages = document.querySelector("#messages");
-        messages.insertAdjacentHTML("beforeend", `<div class="message user">${text}</div>`);
-        messages.insertAdjacentHTML("beforeend", `<div class="message agent">已收到。我会围绕“${text}”生成诊断结论、执行步骤和可复用模板。这个 demo 展示的是 Agent 工作台的对话使用流程。</div>`);
+        appendMessage(messages, "user", escapeHtml(text));
+        appendMessage(messages, "agent", getAgentReply(state.selectedExpert, text));
         input.value = "";
       });
 
