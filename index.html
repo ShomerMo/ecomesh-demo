@@ -1663,10 +1663,10 @@
           category: "游戏",
           price: 299,
           logo: "L",
-          tags: ["LayaAir", "2D/3D", "小游戏发布"],
-          desc: "面向小游戏与 Web 游戏团队，基于 LayaAir 的 2D/3D、WebGL/WebGPU、多端发布和性能优化能力，快速生成游戏原型、脚本结构与预览方案。",
-          detail: "该专家适合策划、制作人和前端游戏开发者，用自然语言描述玩法后，可生成 LayaAir 项目结构、核心场景、角色控制、资源清单、性能建议和多端发布方案。",
-          features: ["AI游戏原型生成", "LayaAir代码生成", "Web/小游戏发布适配", "性能与资源优化"]
+          tags: ["游戏策划", "美术资源", "LayaAir开发"],
+          desc: "面向 LayaIdea 与 ArkClaw 协作场景，从简单玩法描述出发，串联游戏策划、美术资源、程序开发和 QA 发布，生成可预览的 LayaAir 游戏项目。",
+          detail: "该专家适合游戏策划、制作人和 LayaAir 开发者。输入一句玩法描述后，会先细化为专业游戏策划文档，再生成资源清单与美术方案，随后产出 TypeScript 代码、运行预览、日志诊断和发布验证报告。",
+          features: ["游戏策划文档生成", "资源清单与美术方案", "LayaAir程序开发", "预览调试与发布验证"]
         },
         {
           id: "commerce-content",
@@ -1779,10 +1779,10 @@
 
       const featureReplyMap = {
         "laya-game": {
-          "AI游戏原型生成": "我会把玩法描述转成可落地的原型方案。比如你说「做一个横版跳跃小游戏」，我会输出核心循环：移动/跳跃/拾取金币/躲避敌人；并拆成 Scene、Player、Enemy、Coin、UI 五个模块，同时给出首关节奏和失败/胜利条件。",
-          "LayaAir代码生成": "我会按 LayaAir 的开发习惯生成 TypeScript 结构，例如 Main.ts 初始化舞台、GameScene.ts 管理场景、PlayerController.ts 处理输入和动画、Resource.ts 管理图集与音频。代码会尽量贴近可复制到 LayaAir IDE 的形式。",
-          "Web/小游戏发布适配": "我会给出 Web、微信小游戏、抖音小游戏等发布差异清单，包括横竖屏、资源分包、首包体积、适配安全区、触摸输入和音频自动播放限制。",
-          "性能与资源优化": "我会检查 DrawCall、纹理尺寸、图集拆分、骨骼动画数量和对象池使用。对小游戏场景，我会优先建议减少首屏资源、复用节点、延迟加载关卡资源。"
+          "游戏策划文档生成": "我会先执行 refine-requirements：围绕游戏品类、核心循环、胜负条件、操作方式、关卡节奏、数值目标逐项追问，并把一句玩法描述扩展成专业策划文档。示例：输入「做一个横版跳跃小游戏」，我会输出玩法目标、角色能力、敌人规则、关卡结构、UI、音效和首关验收标准。",
+          "资源清单与美术方案": "我会根据策划文档生成 resource_list.json 和美术设计方案，并把资源按角色、场景、UI、动画、音频、特效等类型归类。可接入资源商店搜索下载缺失素材，也能规划 SVG 转 LayaAir 预制体、2D 动画和 CSS 声明式 UI 效果。",
+          "LayaAir程序开发": "我会基于策划文档、资源清单和美术方案搭建 LayaAir 场景节点树，生成 TypeScript 代码结构，例如 Main.ts、GameScene.ts、PlayerController.ts、EnemyController.ts、UIHud.ts，并补充组件绑定、场景操作和 API 使用建议。",
+          "预览调试与发布验证": "我会执行 game-runner 流程：构建预览、截图验证画面、检查控制台日志、定位运行错误，并输出 QA 验证报告。当前一期以 Web 发布为主，后续可扩展抖音小游戏试玩包发布、自动化回归测试和性能 profiling。"
         },
         "commerce-content": {
           "商品卖点自动拆解": "我会先把商品信息拆成 4 类卖点：功能利益、场景利益、情绪利益和信任背书。比如一款恒温杯，我会输出：核心卖点「6 小时长效保温」、人群场景「通勤/办公室/宝妈外出」、内容钩子「早八打工人不用反复接热水」、风险提醒「不要夸大医疗功效」。",
@@ -2064,6 +2064,18 @@
       function getAgentReply(expert, prompt) {
         const normalized = prompt.replace(/\s/g, "");
         if (/能力|能做|有哪些|介绍|商品价值/.test(normalized)) {
+          if (expert.id === "laya-game") {
+            return `
+              <strong>${expert.name}会按 LayaIdea × ArkClaw 的四段流水线推进：</strong>
+              <ul>
+                <li><strong>策划：</strong>把简单玩法描述细化为专业游戏策划文档，使用需求细化问答逐项确认。</li>
+                <li><strong>美术：</strong>搜索/生成缺失素材，产出 resource_list.json、美术设计方案、动画控制器和 UI 样式方案。</li>
+                <li><strong>程序：</strong>基于 LayaAir 搭建场景节点树，生成业务逻辑和 TypeScript 代码。</li>
+                <li><strong>QA：</strong>运行预览、截图验证、检查日志、诊断修复错误并输出发布验证报告。</li>
+              </ul>
+              你可以直接输入一句玩法，例如「做一个横版跳跃收集金币小游戏」，我会先进入策划细化阶段。
+            `;
+          }
           return `
             <strong>${expert.name}可以直接参与真实业务处理，核心能力包括：</strong>
             <ul>
@@ -2144,29 +2156,34 @@
                     <th>Laya 产物</th>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr>
-                    <td>场景</td>
-                    <td>GameScene.ts、Level_01.scene</td>
+              <tbody>
+                <tr>
+                    <td>策划</td>
+                    <td>专业游戏策划文档、需求细化问答</td>
                   </tr>
                   <tr>
-                    <td>角色</td>
-                    <td>PlayerController.ts、run/jump 动画状态</td>
+                    <td>美术</td>
+                    <td>resource_list.json、美术设计方案、动画控制器</td>
                   </tr>
                   <tr>
-                    <td>发布</td>
-                    <td>Web 预览、微信/抖音小游戏适配清单</td>
+                    <td>程序</td>
+                    <td>src/ TypeScript 代码、LayaAir 场景节点树</td>
+                  </tr>
+                  <tr>
+                    <td>QA</td>
+                    <td>预览截图、日志诊断、发布验证报告</td>
                   </tr>
                 </tbody>
               </table>
             </article>
             <article class="artifact-doc">
-              <h4>下一步建议</h4>
+              <h4>LayaIdea × ArkClaw 流水线</h4>
               <ul class="artifact-list">
-                <li>补充游戏类型：横版、消除、塔防、卡牌或 3D 展示</li>
-                <li>确认目标平台：Web、微信小游戏、抖音小游戏或 Native</li>
-                <li>上传美术规格：角色尺寸、地图比例、UI 风格</li>
-                <li>生成首个可运行 LayaAir 代码结构</li>
+                <li>第一步：玩法描述 → refine-requirements → 策划文档</li>
+                <li>第二步：策划文档 → 资源清单与美术设计方案</li>
+                <li>第三步：资源清单 → LayaAir TypeScript 项目</li>
+                <li>第四步：运行预览 → 日志诊断 → Web 发布验证</li>
+                <li>第二期：云端 IDE、数值校验、AI 2D/3D 素材、抖音试玩包发布</li>
               </ul>
             </article>
           `;
