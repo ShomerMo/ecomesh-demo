@@ -1100,6 +1100,117 @@
         line-height: 24px;
       }
 
+      .game-preview {
+        overflow: hidden;
+        border: 1px solid #cfd8e6;
+        border-radius: 14px;
+        background: #0b1220;
+        box-shadow: 0 12px 28px rgba(15, 23, 42, 0.18);
+      }
+
+      .game-preview-bar {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        height: 32px;
+        padding: 0 12px;
+        color: #cbd5e1;
+        background: #111827;
+        font-size: 12px;
+      }
+
+      .game-preview-bar i {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: #ef4444;
+      }
+
+      .game-preview-bar i:nth-child(2) {
+        background: #f59e0b;
+      }
+
+      .game-preview-bar i:nth-child(3) {
+        background: #22c55e;
+      }
+
+      .game-stage {
+        position: relative;
+        height: 280px;
+        overflow: hidden;
+        background:
+          radial-gradient(circle at 72% 18%, rgba(34, 211, 238, 0.35), transparent 18%),
+          linear-gradient(180deg, #15264a 0%, #14213d 58%, #0f172a 58%, #0f172a 100%);
+      }
+
+      .game-stage::before {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 58px;
+        content: "";
+        background:
+          linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px) 0 0 / 24px 24px,
+          #1e293b;
+      }
+
+      .game-hero {
+        position: absolute;
+        left: 58px;
+        bottom: 56px;
+        width: 38px;
+        height: 46px;
+        border-radius: 12px 12px 8px 8px;
+        background: linear-gradient(180deg, #60a5fa, #2563eb);
+        box-shadow: 0 0 0 5px rgba(96, 165, 250, 0.18);
+      }
+
+      .game-hero::before {
+        position: absolute;
+        left: 9px;
+        top: -18px;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        content: "";
+        background: #fde68a;
+      }
+
+      .game-enemy {
+        position: absolute;
+        right: 66px;
+        bottom: 56px;
+        width: 42px;
+        height: 42px;
+        border-radius: 10px;
+        background: linear-gradient(135deg, #fb7185, #e11d48);
+        transform: rotate(8deg);
+      }
+
+      .game-platform {
+        position: absolute;
+        left: 152px;
+        bottom: 118px;
+        width: 92px;
+        height: 18px;
+        border-radius: 10px;
+        background: #38bdf8;
+        box-shadow: 130px -54px 0 #a78bfa;
+      }
+
+      .game-hud {
+        position: absolute;
+        top: 14px;
+        left: 14px;
+        right: 14px;
+        display: flex;
+        justify-content: space-between;
+        color: #e2e8f0;
+        font-size: 12px;
+        font-weight: 800;
+      }
+
       .service-band {
         border-top: 1px solid #edf1f7;
         background: #eef3fb;
@@ -1523,12 +1634,12 @@
 
     <script>
       const expertCategories = [
-        ["全部服务", 8],
+        ["全部服务", 9],
         ["电商", 3],
         ["生活服务", 3],
         ["金融", 2],
         ["短剧", 0],
-        ["游戏", 0],
+        ["游戏", 1],
         ["效率办公", 0],
         ["数据分析", 0]
       ];
@@ -1545,6 +1656,18 @@
       ];
 
       const experts = [
+        {
+          id: "laya-game",
+          name: "Laya游戏专家",
+          vendor: "Layabox 游戏引擎生态",
+          category: "游戏",
+          price: 299,
+          logo: "L",
+          tags: ["LayaAir", "2D/3D", "小游戏发布"],
+          desc: "面向小游戏与 Web 游戏团队，基于 LayaAir 的 2D/3D、WebGL/WebGPU、多端发布和性能优化能力，快速生成游戏原型、脚本结构与预览方案。",
+          detail: "该专家适合策划、制作人和前端游戏开发者，用自然语言描述玩法后，可生成 LayaAir 项目结构、核心场景、角色控制、资源清单、性能建议和多端发布方案。",
+          features: ["AI游戏原型生成", "LayaAir代码生成", "Web/小游戏发布适配", "性能与资源优化"]
+        },
         {
           id: "commerce-content",
           name: "电商内容运营专家",
@@ -1655,6 +1778,12 @@
       ];
 
       const featureReplyMap = {
+        "laya-game": {
+          "AI游戏原型生成": "我会把玩法描述转成可落地的原型方案。比如你说「做一个横版跳跃小游戏」，我会输出核心循环：移动/跳跃/拾取金币/躲避敌人；并拆成 Scene、Player、Enemy、Coin、UI 五个模块，同时给出首关节奏和失败/胜利条件。",
+          "LayaAir代码生成": "我会按 LayaAir 的开发习惯生成 TypeScript 结构，例如 Main.ts 初始化舞台、GameScene.ts 管理场景、PlayerController.ts 处理输入和动画、Resource.ts 管理图集与音频。代码会尽量贴近可复制到 LayaAir IDE 的形式。",
+          "Web/小游戏发布适配": "我会给出 Web、微信小游戏、抖音小游戏等发布差异清单，包括横竖屏、资源分包、首包体积、适配安全区、触摸输入和音频自动播放限制。",
+          "性能与资源优化": "我会检查 DrawCall、纹理尺寸、图集拆分、骨骼动画数量和对象池使用。对小游戏场景，我会优先建议减少首屏资源、复用节点、延迟加载关卡资源。"
+        },
         "commerce-content": {
           "商品卖点自动拆解": "我会先把商品信息拆成 4 类卖点：功能利益、场景利益、情绪利益和信任背书。比如一款恒温杯，我会输出：核心卖点「6 小时长效保温」、人群场景「通勤/办公室/宝妈外出」、内容钩子「早八打工人不用反复接热水」、风险提醒「不要夸大医疗功效」。",
           "多平台内容风格适配": "我会按平台生成不同风格：小红书偏种草体验，抖音偏前三秒钩子和口播节奏，淘宝偏搜索关键词和转化信息。你给我商品资料后，我会返回三套文案，并标注每套适合的标题、正文、标签和发布注意点。",
@@ -1983,6 +2112,65 @@
       }
 
       function renderArtifactPreview(expert) {
+        if (expert.id === "laya-game") {
+          return `
+            <div class="artifact-toolbar">
+              <button class="tool-round" type="button" aria-label="保存">▣</button>
+              <button class="tool-round" type="button" aria-label="刷新">↻</button>
+              <button class="tool-round" type="button" aria-label="全屏">⛶</button>
+            </div>
+            <div class="game-preview">
+              <div class="game-preview-bar">
+                <i></i><i></i><i></i>
+                <span>LayaAir · AI 游戏预览</span>
+              </div>
+              <div class="game-stage">
+                <div class="game-hud">
+                  <span>Score 1280</span>
+                  <span>FPS 60</span>
+                </div>
+                <div class="game-platform"></div>
+                <div class="game-hero"></div>
+                <div class="game-enemy"></div>
+              </div>
+            </div>
+            <article class="artifact-doc">
+              <h4>生成产物：横版跳跃原型</h4>
+              <p>玩法目标：控制角色跳跃、拾取金币、躲避敌人，完成首关通关。右侧预览模拟 LayaAir 场景运行效果，可继续扩展为真实项目。</p>
+              <table>
+                <thead>
+                  <tr>
+                    <th>模块</th>
+                    <th>Laya 产物</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>场景</td>
+                    <td>GameScene.ts、Level_01.scene</td>
+                  </tr>
+                  <tr>
+                    <td>角色</td>
+                    <td>PlayerController.ts、run/jump 动画状态</td>
+                  </tr>
+                  <tr>
+                    <td>发布</td>
+                    <td>Web 预览、微信/抖音小游戏适配清单</td>
+                  </tr>
+                </tbody>
+              </table>
+            </article>
+            <article class="artifact-doc">
+              <h4>下一步建议</h4>
+              <ul class="artifact-list">
+                <li>补充游戏类型：横版、消除、塔防、卡牌或 3D 展示</li>
+                <li>确认目标平台：Web、微信小游戏、抖音小游戏或 Native</li>
+                <li>上传美术规格：角色尺寸、地图比例、UI 风格</li>
+                <li>生成首个可运行 LayaAir 代码结构</li>
+              </ul>
+            </article>
+          `;
+        }
         const primary = expert.features[0];
         return `
           <div class="artifact-toolbar">
@@ -2071,7 +2259,7 @@
             </aside>
             <section class="chat">
               <div class="chat-head">
-                <h2>${expert.name} 对话工作台</h2>
+                <h2>${expert.id === "laya-game" ? "AI游戏工作台" : `${expert.name} 对话工作台`}</h2>
                 <button class="ghost-btn" type="button" data-action="back-detail" data-expert-id="${expert.id}">查看详情</button>
               </div>
               <div class="messages" id="messages">
